@@ -1,0 +1,147 @@
+<html>
+<head>
+<title>console.sql</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #ed864a;}
+.s1 { color: #ebebeb;}
+.s2 { color: #ed864a; font-weight: bold;}
+.s3 { color: #7ec3e6;}
+.s4 { color: #33ccff; font-weight: bold;}
+.s5 { color: #54b33e;}
+</style>
+</head>
+<body bgcolor="#131314">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+console.sql</font>
+</center></td></tr></table>
+<pre><span class="s0">create database </span><span class="s1">sqlanalysis</span><span class="s2">;</span>
+<span class="s0">use </span><span class="s1">sqlanalysis</span><span class="s2">;</span>
+
+<span class="s3">-- use describe to look at the data type of Revenue Datasets</span>
+<span class="s0">desc </span><span class="s1">`Revenue Data 2`</span><span class="s2">;</span>
+<span class="s0">desc </span><span class="s1">`Revenue Data 1`</span><span class="s2">;</span>
+
+<span class="s3">-- now lets look at the dataset</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Revenue Data 1`</span><span class="s2">;</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Revenue Data 2`</span><span class="s2">;</span>
+
+<span class="s3">-- now the first thing to do is to look if there are any empty rows in the dataset</span>
+<span class="s3">-- there are null values in WeekID, Month Number, MonthID, Day Name and Revenue</span>
+<span class="s0">select</span>
+  <span class="s1">sum(</span><span class="s0">IF</span><span class="s1">(</span><span class="s0">Date is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesDateColumn</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Week_ID </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInWeekID</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(`Month Number` </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMonthNumber</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Month_ID </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMonthID</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(</span><span class="s0">YEAR is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInYear</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Day_Name </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInDayName</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Revenue </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInRevenue</span>
+  <span class="s0">from </span><span class="s1">`Revenue Data 1`</span><span class="s2">;</span>
+
+<span class="s3">-- lets look at Revenue Data 2</span>
+<span class="s3">-- null values in Revenue Column</span>
+<span class="s0">select</span>
+  <span class="s1">sum(</span><span class="s0">IF</span><span class="s1">(</span><span class="s0">Date is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesDateColumn</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Week_ID </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInWeekID</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(`Month Number` </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMonthNumber</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Month_ID </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMonthID</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(</span><span class="s0">YEAR is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInYear</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Day_Name </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInDayName</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Revenue </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInRevenue</span>
+  <span class="s0">from </span><span class="s1">`Revenue Data 2`</span><span class="s2">;</span>
+
+<span class="s3">-- after running this query, there are null text values which will be deleted</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Revenue Data 2`</span><span class="s2">;</span>
+<span class="s3">-- QUERY THAT DELETES TEXT NULL VALUES</span>
+<span class="s0">delete from </span><span class="s1">`Revenue Data 2` </span><span class="s0">where </span><span class="s1">Week_ID = </span><span class="s5">'NULL'</span><span class="s2">;</span>
+
+<span class="s3">-- query to look at the dataset</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Revenue Data 2`</span><span class="s2">;</span>
+
+
+<span class="s3">-- now lets look at the tables again</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Revenue Data 1`</span><span class="s2">;</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Revenue Data 2`</span><span class="s2">;</span>
+
+<span class="s3">-- now we create a new table join both revenue data based on Date column</span>
+<span class="s0">create table </span><span class="s1">`FinalRevenueData` </span><span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Revenue Data 1` </span><span class="s0">union all select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Revenue Data 2`</span><span class="s2">;</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">FinalRevenueData</span><span class="s2">;</span>
+
+<span class="s3">-- now lets check if there null values in this final revenue data</span>
+<span class="s3">-- null values in weekid, monthnumber, monthid, day name, revenue column</span>
+<span class="s0">select</span>
+  <span class="s1">sum(</span><span class="s0">IF</span><span class="s1">(</span><span class="s0">Date is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesDateColumn</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Week_ID </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInWeekID</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(`Month Number` </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMonthNumber</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Month_ID </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMonthID</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(</span><span class="s0">YEAR is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInYear</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Day_Name </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInDayName</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Revenue </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInRevenue</span>
+  <span class="s0">from </span><span class="s1">`FinalRevenueData`</span><span class="s2">;</span>
+
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">FinalRevenueData</span><span class="s2">;</span>
+
+<span class="s3">-- now lets look at Marketing data and Visitors data</span>
+<span class="s0">desc </span><span class="s1">`Marketing Data`</span><span class="s2">;</span>
+<span class="s0">desc </span><span class="s1">`Visitors Data`</span><span class="s2">;</span>
+
+<span class="s3">-- now it can be observed that there are null values in last three rows of Marketing and Visitors data</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Marketing Data`</span><span class="s2">;</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">`Visitors Data`</span><span class="s2">;</span>
+
+<span class="s3">-- now lets check for null values</span>
+<span class="s3">-- 5 null values in visitors column</span>
+<span class="s0">select</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Visitors </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">))  </span><span class="s0">as </span><span class="s1">NullValuesVisitorsColumn </span><span class="s0">from </span><span class="s1">`Visitors Data`</span><span class="s2">;</span>
+<span class="s3">-- null values in marketing spend</span>
+<span class="s0">select</span>
+   <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(`Marketing Spend` </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMarketingSpend</span><span class="s2">,</span>
+   <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Promo </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInPromo </span><span class="s0">from </span><span class="s1">`Marketing Data`</span><span class="s2">;</span>
+
+<span class="s3">-- now before we can see there are duplicate rows in 130 - 132</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">FinalRevenueData</span><span class="s2">;</span>
+<span class="s3">-- we are going to remove it via week id</span>
+<span class="s0">delete from </span><span class="s1">FinalRevenueData </span><span class="s0">where </span><span class="s1">Week_ID </span><span class="s0">is null</span><span class="s2">;</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">FinalRevenueData</span><span class="s2">;</span>
+
+<span class="s3">-- now lets proceed to joining Marketing and Revenue data</span>
+<span class="s3">-- create a new table</span>
+<span class="s0">create table </span><span class="s1">`TheeFinalDataset`</span>
+<span class="s0">select </span><span class="s1">FinalRevenueData.Date</span><span class="s2">, </span><span class="s1">Week_ID</span><span class="s2">, </span><span class="s1">`Month Number`</span><span class="s2">, </span><span class="s1">Month_ID</span><span class="s2">, </span><span class="s0">Year</span><span class="s2">, </span><span class="s1">Day_Name</span><span class="s2">, </span><span class="s1">Revenue</span><span class="s2">,</span><span class="s1">`Marketing Spend`</span><span class="s2">, </span><span class="s1">Promo</span><span class="s2">, </span><span class="s1">Visitors </span><span class="s0">from </span><span class="s1">FinalRevenueData</span>
+<span class="s0">inner join </span><span class="s1">`Marketing Data` `M D` </span><span class="s0">on </span><span class="s1">FinalRevenueData.Date = `M D`.Date</span>
+<span class="s0">inner join </span><span class="s1">`Visitors Data` `V D` </span><span class="s0">on </span><span class="s1">FinalRevenueData.Date = `V D`.Date</span><span class="s2">;</span>
+
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">TheeFinalDataset</span><span class="s2">;</span>
+
+<span class="s3">-- now lets check for null values in TheeFinalDataset</span>
+<span class="s3">-- there are null values in Revenue, Marketing Spend and Visitors</span>
+<span class="s0">select</span>
+  <span class="s1">sum(</span><span class="s0">IF</span><span class="s1">(</span><span class="s0">Date is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesDateColumn</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Week_ID </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInWeekID</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(`Month Number` </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMonthNumber</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Month_ID </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMonthID</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(</span><span class="s0">YEAR is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInYear</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Day_Name </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInDayName</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Revenue </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInRevenue</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(`Marketing Spend` </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInMarketingSpend</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Promo  </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInPromo</span><span class="s2">,</span>
+  <span class="s1">sum(</span><span class="s0">if</span><span class="s1">(Visitors </span><span class="s0">is null</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)) </span><span class="s0">as </span><span class="s1">NullValuesInVisitors</span>
+  <span class="s0">from </span><span class="s1">TheeFinalDataset</span><span class="s2">;</span>
+
+
+<span class="s3">-- now we can either impute null values via sql or via python</span>
+<span class="s3">-- lets impute null values via python</span>
+<span class="s3">-- lets export TheeFinalDataset for Analysis</span>
+<span class="s0">select </span><span class="s1">* </span><span class="s0">from </span><span class="s1">TheeFinalDataset</span><span class="s2">;</span>
+
+
+
+
+
+
+
+</pre>
+</body>
+</html>
